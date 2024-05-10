@@ -6,20 +6,24 @@ import { Todo } from "../type";
 const AddTodoForm: React.FC = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [date, setDate] = useState(""); // State to handle the date input
   const dispatch = useDispatch();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!title.trim()) return;
+
     const newTodo: Todo = {
       id: Date.now(),
       title,
       description,
       completed: false,
+      date, // Add the date when creating a new todo
     };
     dispatch(addTodo(newTodo));
     setTitle("");
     setDescription("");
+    setDate(""); // Reset the date input after submitting
   };
 
   return (
@@ -42,6 +46,7 @@ const AddTodoForm: React.FC = () => {
                 required
               />
             </div>
+
             <div className="mb-3">
               <label htmlFor="description" className="form-label">
                 Description (Optional)
@@ -54,6 +59,21 @@ const AddTodoForm: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             </div>
+
+            <div className="mb-3">
+              <label htmlFor="date" className="form-label">
+                Date
+              </label>
+              <input
+                type="date"
+                className="form-control"
+                id="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+              />
+            </div>
+
             <button type="submit" className="btn btn-primary">
               Add Todo
             </button>
